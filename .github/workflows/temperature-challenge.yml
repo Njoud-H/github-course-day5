@@ -1,0 +1,20 @@
+name: Challenge
+
+on:
+  pull_request:
+    branches: ['*']
+
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - env: 
+          PR_NAMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          export body=$(curl "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=weathercode&current_weather=true&timezone=Asia/Riyadh")
+          export timezone=$(echo $body | jq '.timezone')
+          export weather=$(echo $body | jq '.current_weather.temperature')
+          gh pr comment $PR_NAMBER --body "The weather of $timezone is: $weather" --repo $GITHUB_REPOSITORY  
+ 
