@@ -17,4 +17,5 @@ jobs:
           export timezone=$(echo $body | jq '.timezone')
           export weather=$(echo $body | jq '.current_weather.temperature')
           gh pr comment $PR_NAMBER --body "The weather of $timezone is: $weather" --repo $GITHUB_REPOSITORY  
+          
  
